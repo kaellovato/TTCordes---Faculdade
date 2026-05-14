@@ -8,25 +8,33 @@
 // - Implementar updateInstrument(req, res)
 // - Implementar deleteInstrument(req, res)
 
+const notImplemented = (res, endpoint) => {
+  return res.status(501).json({
+    success: false,
+    error: 'NOT_IMPLEMENTED',
+    message: `Endpoint ${endpoint} planeado no Sprint 1 e implementado nos próximos sprints`
+  });
+};
+
 const instrumentController = {
   getAllInstruments: async (req, res) => {
-    // TODO: GET /instruments com filtros opcionais
+    return notImplemented(res, 'GET /instruments');
   },
 
   getInstrumentById: async (req, res) => {
-    // TODO: GET /instruments/:id
+    return notImplemented(res, 'GET /instruments/:id');
   },
 
   createInstrument: async (req, res) => {
-    // TODO: POST /instruments (manager only)
+    return notImplemented(res, 'POST /instruments');
   },
 
   updateInstrument: async (req, res) => {
-    // TODO: PATCH /instruments/:id (manager only)
+    return notImplemented(res, 'PATCH /instruments/:id');
   },
 
   deleteInstrument: async (req, res) => {
-    // TODO: DELETE /instruments/:id (manager only)
+    return notImplemented(res, 'DELETE /instruments/:id');
   }
 };
 

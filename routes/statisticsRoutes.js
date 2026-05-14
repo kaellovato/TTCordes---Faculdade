@@ -3,14 +3,12 @@
 
 const express = require('express');
 const router = express.Router();
+const statisticsController = require('../controllers/statisticsController');
 
-// TODO
-// - Importar statisticsController
-// - Importar authMiddleware
-// - GET /total-sales
-// - GET /top-instruments
-// - GET /revenue-per-instrument
-// - GET /seller-streaks
+router.get('/total-sales', statisticsController.getTotalSales);
+router.get('/top-instruments', statisticsController.getTopInstruments);
+router.get('/revenue-per-instrument', statisticsController.getRevenuePerInstrument);
+router.get('/seller-streaks', statisticsController.getSellerStreaks);
 
 module.exports = router;
 

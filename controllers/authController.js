@@ -6,17 +6,25 @@
 // - Implementar login(req, res)
 // - Implementar refresh(req, res)
 
+const notImplemented = (res, endpoint) => {
+  return res.status(501).json({
+    success: false,
+    error: 'NOT_IMPLEMENTED',
+    message: `Endpoint ${endpoint} planeado no Sprint 1 e implementado nos próximos sprints`
+  });
+};
+
 const authController = {
   register: async (req, res) => {
-    // TODO: Validação, hash password, criar utilizador, retornar token
+    return notImplemented(res, 'POST /auth/register');
   },
 
   login: async (req, res) => {
-    // TODO: Validação email/password, comparar hash, retornar token
+    return notImplemented(res, 'POST /auth/login');
   },
 
   refresh: async (req, res) => {
-    // TODO: Validar token anterior, gerar novo, retornar
+    return notImplemented(res, 'POST /auth/refresh');
   }
 };
 

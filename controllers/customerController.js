@@ -8,25 +8,33 @@
 // - Implementar updateCustomer(req, res)
 // - Implementar deleteCustomer(req, res)
 
+const notImplemented = (res, endpoint) => {
+  return res.status(501).json({
+    success: false,
+    error: 'NOT_IMPLEMENTED',
+    message: `Endpoint ${endpoint} planeado no Sprint 1 e implementado nos próximos sprints`
+  });
+};
+
 const customerController = {
   getAllCustomers: async (req, res) => {
-    // TODO: GET /customers
+    return notImplemented(res, 'GET /customers');
   },
 
   getCustomerById: async (req, res) => {
-    // TODO: GET /customers/:id
+    return notImplemented(res, 'GET /customers/:id');
   },
 
   createCustomer: async (req, res) => {
-    // TODO: POST /customers (manager only)
+    return notImplemented(res, 'POST /customers');
   },
 
   updateCustomer: async (req, res) => {
-    // TODO: PATCH /customers/:id (manager only)
+    return notImplemented(res, 'PATCH /customers/:id');
   },
 
   deleteCustomer: async (req, res) => {
-    // TODO: DELETE /customers/:id (manager only)
+    return notImplemented(res, 'DELETE /customers/:id');
   }
 };
 

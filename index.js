@@ -3,9 +3,17 @@
 // Carrega as configurações e inicia o servidor Express
 
 // Importar módulos necessários
-require('dotenv').config();  // Carregar variáveis de ambiente
 const express = require('express');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const openApiSpec = require('./docs/openapi');
+
+const authRoutes = require('./routes/authRoutes');
+const instrumentRoutes = require('./routes/instrumentRoutes');
+const saleRoutes = require('./routes/saleRoutes');
+const customerRoutes = require('./routes/customerRoutes');
+const statisticsRoutes = require('./routes/statisticsRoutes');
+const historyRoutes = require('./routes/historyRoutes');
 
 // Criar aplicação Express
 const app = express();
@@ -26,14 +34,10 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ttcord
 // ==================== CONEXÃO COM MONGODB ====================
 
 // Conectar ao MongoDB usando Mongoose
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(MONGODB_URI)
 .then(() => console.log('[DATABASE] MongoDB conectado com sucesso!'))
 .catch(err => {
   console.error('[DATABASE] Falha ao conectar com MongoDB:', err.message);
-  process.exit(1);
 });
 
 // ==================== ROTAS ====================
@@ -42,10 +46,10 @@ mongoose.connect(MONGODB_URI, {
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'API TTCordes - Setup Inicial',
+    message: 'API TTCordes - Sprint 1',
     status: 'online',
     endpoints: {
-      docs: 'GET /docs (Swagger - após Sprint 7)',
+      docs: 'GET /docs',
       auth: {
         register: 'POST /auth/register',
         login: 'POST /auth/login',
@@ -60,21 +64,14 @@ app.get('/', (req, res) => {
   });
 });
 
-// Importar rotas (será adicionado nos próximos sprints)
-// const authRoutes = require('./routes/authRoutes');
-// const instrumentRoutes = require('./routes/instrumentRoutes');
-// const saleRoutes = require('./routes/saleRoutes');
-// const customerRoutes = require('./routes/customerRoutes');
-// const statisticsRoutes = require('./routes/statisticsRoutes');
-// const historyRoutes = require('./routes/historyRoutes');
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
-// Aplicar rotas (será ativado quando os ficheiros estiverem prontos)
-// app.use('/auth', authRoutes);
-// app.use('/instruments', instrumentRoutes);
-// app.use('/sales', saleRoutes);
-// app.use('/customers', customerRoutes);
-// app.use('/statistics', statisticsRoutes);
-// app.use('/sellers', historyRoutes);
+app.use('/auth', authRoutes);
+app.use('/instruments', instrumentRoutes);
+app.use('/sales', saleRoutes);
+app.use('/customers', customerRoutes);
+app.use('/statistics', statisticsRoutes);
+app.use('/sellers', historyRoutes);
 
 // ==================== TRATAMENTO DE ERROS ====================
 

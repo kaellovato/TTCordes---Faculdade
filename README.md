@@ -1,96 +1,50 @@
 # TTCordes
 
-API RESTful para gerir uma loja de instrumentos musicais, com catálogo, vendas, clientes, histórico por vendedor e estatísticas de produtividade.
+API RESTful para gestao da loja de instrumentos musicais TTCordes.
 
-## Objetivo
+## Sprint atual
 
-O projeto está orientado para a marca **TTCordes** e pretende suportar:
-- autenticação de vendedores e gestores;
-- catálogo de instrumentos musicais;
-- registo de vendas;
-- consulta de histórico por vendedor;
-- estatísticas de vendas e desempenho;
-- gestão de clientes como funcionalidade extra.
+Projeto organizado em 4 sprints. Este repositorio esta no Sprint 1:
 
-## Stack tecnológica
+- analise detalhada dos requisitos;
+- definicao dos endpoints;
+- definicao dos modelos principais;
+- rascunho OpenAPI/Swagger;
+- definicao da arquitetura tecnica.
 
-- **Backend:** Node.js + Express.js
-- **Base de dados:** MongoDB + Mongoose
-- **Autenticação:** JWT + bcryptjs
-- **Documentação:** OpenAPI / Swagger
+## Stack
 
-## Como correr
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT + bcryptjs
+- Swagger UI (OpenAPI)
+
+## Executar localmente
 
 ```bash
 npm install
-cp .env.example .env
 npm start
 ```
 
-Servidor por defeito em `http://localhost:3000`.
+Servidor: http://localhost:3000  
+Swagger: http://localhost:3000/docs
 
-## Endpoints previstos
+## Endpoints planeados
 
-### Autenticação
-- `POST /auth/register`
-- `POST /auth/login`
-- `POST /auth/refresh`
-
-### Instrumentos
-- `GET /instruments`
-- `GET /instruments/:id`
-- `POST /instruments`
-- `PATCH /instruments/:id`
-- `DELETE /instruments/:id`
-
-### Vendas
-- `GET /sales`
-- `GET /sales/:id`
-- `POST /sales`
-- `PATCH /sales/:id`
-- `DELETE /sales/:id`
-
-### Histórico e estatísticas
-- `GET /sellers/:id/history`
-- `GET /sellers/:id/stats`
-- `GET /statistics/total-sales`
-- `GET /statistics/top-instruments`
-- `GET /statistics/revenue-per-instrument`
-- `GET /statistics/seller-streaks`
-
-### Clientes
-- `GET /customers`
-- `GET /customers/:id`
-- `POST /customers`
-- `PATCH /customers/:id`
-- `DELETE /customers/:id`
+- Auth: `POST /auth/register`, `POST /auth/login`, `POST /auth/refresh`
+- Instruments: `GET /instruments`, `GET /instruments/:id`, `POST /instruments`, `PATCH /instruments/:id`, `DELETE /instruments/:id`
+- Sales: `GET /sales`, `GET /sales/:id`, `POST /sales`, `PATCH /sales/:id`, `DELETE /sales/:id`
+- Customers: `GET /customers`, `GET /customers/:id`, `POST /customers`, `PATCH /customers/:id`, `DELETE /customers/:id`
+- Seller history: `GET /sellers/:id/history`, `GET /sellers/:id/stats`
+- Statistics: `GET /statistics/total-sales`, `GET /statistics/top-instruments`, `GET /statistics/revenue-per-instrument`, `GET /statistics/seller-streaks`
 
 ## Modelos principais
 
-- `User` — utilizadores da plataforma, com roles `seller` e `manager`
-- `Instrument` — catálogo de instrumentos musicais
-- `Sale` — registo de vendas e associação a vendedor, cliente e instrumento
-- `Customer` — clientes da loja
+- `User`
+- `Instrument`
+- `Sale`
+- `Customer`
 
-## Estrutura do projeto
+## Estado do backend
 
-```
-Projeto de Gestao de Oficina automovel/
-├── config/
-├── controllers/
-├── middlewares/
-├── models/
-├── routes/
-├── utils/
-├── ignorar/
-├── index.js
-├── package.json
-├── README.md
-└── RELATORIO_MOODLE.md
-```
-
-## Estado atual
-
-O projeto já tem a base de planeamento e a estrutura inicial pronta. O próximo passo é implementar os controladores e ligar as rotas ao novo tema da loja TTCordes.
-
-# TTCordes---Faculdade
+Os endpoints estao ligados e respondem com `501 Not Implemented`, indicando que ja foram definidos no Sprint 1 e serao implementados nos proximos sprints.

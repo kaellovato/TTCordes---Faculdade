@@ -7,21 +7,29 @@
 // - Implementar getRevenuePerInstrument(req, res)
 // - Implementar getSellerStreaks(req, res)
 
+const notImplemented = (res, endpoint) => {
+  return res.status(501).json({
+    success: false,
+    error: 'NOT_IMPLEMENTED',
+    message: `Endpoint ${endpoint} planeado no Sprint 1 e implementado nos próximos sprints`
+  });
+};
+
 const statisticsController = {
   getTotalSales: async (req, res) => {
-    // TODO: GET /statistics/total-sales com agregações
+    return notImplemented(res, 'GET /statistics/total-sales');
   },
 
   getTopInstruments: async (req, res) => {
-    // TODO: GET /statistics/top-instruments (Top 5)
+    return notImplemented(res, 'GET /statistics/top-instruments');
   },
 
   getRevenuePerInstrument: async (req, res) => {
-    // TODO: GET /statistics/revenue-per-instrument
+    return notImplemented(res, 'GET /statistics/revenue-per-instrument');
   },
 
   getSellerStreaks: async (req, res) => {
-    // TODO: GET /statistics/seller-streaks (dias consecutivos)
+    return notImplemented(res, 'GET /statistics/seller-streaks');
   }
 };
 

@@ -8,25 +8,33 @@
 // - Implementar updateSale(req, res)
 // - Implementar deleteSale(req, res)
 
+const notImplemented = (res, endpoint) => {
+  return res.status(501).json({
+    success: false,
+    error: 'NOT_IMPLEMENTED',
+    message: `Endpoint ${endpoint} planeado no Sprint 1 e implementado nos próximos sprints`
+  });
+};
+
 const saleController = {
   getAllSales: async (req, res) => {
-    // TODO: GET /sales com filtros (seller, status, date range)
+    return notImplemented(res, 'GET /sales');
   },
 
   getSaleById: async (req, res) => {
-    // TODO: GET /sales/:id com populate
+    return notImplemented(res, 'GET /sales/:id');
   },
 
   createSale: async (req, res) => {
-    // TODO: POST /sales com validação de FKs
+    return notImplemented(res, 'POST /sales');
   },
 
   updateSale: async (req, res) => {
-    // TODO: PATCH /sales/:id (ajustes de venda, cálculo de total)
+    return notImplemented(res, 'PATCH /sales/:id');
   },
 
   deleteSale: async (req, res) => {
-    // TODO: DELETE /sales/:id (manager only)
+    return notImplemented(res, 'DELETE /sales/:id');
   }
 };
 

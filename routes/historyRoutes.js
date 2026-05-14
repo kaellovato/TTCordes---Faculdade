@@ -3,12 +3,10 @@
 
 const express = require('express');
 const router = express.Router();
+const historyController = require('../controllers/historyController');
 
-// TODO
-// - Importar historyController
-// - Importar authMiddleware
-// - GET /:id/history
-// - GET /:id/stats
+router.get('/:id/history', historyController.getSellerHistory);
+router.get('/:id/stats', historyController.getSellerStats);
 
 module.exports = router;
 

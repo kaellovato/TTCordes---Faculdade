@@ -3,13 +3,11 @@
 
 const express = require('express');
 const router = express.Router();
+const authController = require('../controllers/authController');
 
-// TODO
-// - Importar authController
-// - Importar middlewares (authMiddleware se necessário)
-// - POST /register
-// - POST /login
-// - POST /refresh
+router.post('/register', authController.register);
+router.post('/login', authController.login);
+router.post('/refresh', authController.refresh);
 
 module.exports = router;
 
