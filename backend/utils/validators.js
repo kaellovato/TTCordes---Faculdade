@@ -10,8 +10,13 @@
 
 const validators = {
   validateEmail: (email) => {
+    if (!email || typeof email !== 'string') return false;
+
+    const normalizedEmail = email.trim().toLowerCase();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    if (!regex.test(normalizedEmail)) return false;
+
+    return normalizedEmail.endsWith('.pt');
   },
 
   validatePassword: (password) => {

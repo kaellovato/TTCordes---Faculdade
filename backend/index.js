@@ -2,9 +2,12 @@
 // Ponto de entrada da API TTCordes
 // Carrega as configurações e inicia o servidor Express
 
+require('dotenv').config();
+
 // Importar módulos necessários
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const openApiSpec = require('./docs/openapi');
 
@@ -26,6 +29,9 @@ app.use(express.json());
 // Middleware para parsear URL-encoded
 app.use(express.urlencoded({ extended: true }));
 
+// Permitir chamadas do frontend em Live Server
+app.use(cors());
+
 // ==================== CONFIGURAÇÕES ====================
 
 const PORT = process.env.PORT || 3000;
@@ -46,7 +52,7 @@ mongoose.connect(MONGODB_URI)
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'API TTCordes - Sprint 1',
+    message: 'API TTCordes - Sprint 2',
     status: 'online',
     endpoints: {
       docs: 'GET /docs',

@@ -28,36 +28,89 @@ tags:
 
 paths:
   /auth/register:
-    post:
-      tags: [Auth]
-      summary: Registar utilizador
-      responses:
-        '201':
-          description: Utilizador registado
-        '501':
-          $ref: '#/components/responses/NotImplemented'
+      post:
+        tags: [Auth]
+        summary: Registar novo utilizador (vendedor ou gestor da loja)
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterRequest'
+              example:
+                username: joao_silva
+                email: joao@ttcordes.pt
+                password: "123456"
+                role: seller
+        responses:
+          '201':
+            description: Utilizador registado com sucesso
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AuthResponse'
+          '400':
+            description: Campos obrigatórios em falta
+          '409':
+            description: Email ou username já registado
 
   /auth/login:
     post:
       tags: [Auth]
-      summary: Autenticar utilizador
+      summary: Autenticar vendedor ou gestor e obter token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: joao@ttcordes.pt
+              password: "123456"
       responses:
         '200':
           description: Login efetuado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Campos obrigatórios em falta
         '401':
-          description: Credenciais invalidas
-        '501':
-          $ref: '#/components/responses/NotImplemented'
+          description: Credenciais inválidas
 
   /auth/refresh:
     post:
       tags: [Auth]
       summary: Renovar token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+                  description: Token JWT atual ainda válido
       responses:
         '200':
-          description: Token renovado
-        '501':
-          $ref: '#/components/responses/NotImplemented'
+          description: Novo token gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+        '401':
+          description: Token inválido ou expirado
 
   /instruments:
     get:
@@ -410,3 +463,60 @@ components:
           example: NOT_IMPLEMENTED
         message:
           type: string
+
+    RegisterRequest:
+      type: object
+      required: [username, email, password]
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: joao_silva
+        email:
+          type: string
+          format: email
+          example: joao@ttcordes.pt
+        password:
+          type: string
+          minLength: 6
+          example: "123456"
+        role:
+          type: string
+          enum: [seller, manager]
+          default: seller
+          description: seller = vendedor da loja, manager = gestor operacional
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            token:
+              type: string
+              description: JWT pronto a usar em cabeçalhos HTTP (Authorization Bearer)
+            user:
+              $ref: '#/components/schemas/User'
+
+  # Declaração global do esquema de segurança para habilitar a UI interactiva
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
