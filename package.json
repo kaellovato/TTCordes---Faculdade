@@ -1,0 +1,37 @@
+{
+  "name": "ttcordes",
+  "version": "1.0.0",
+  "description": "API RESTful para gestão da loja TTCordes de instrumentos musicais, vendas e clientes",
+  "keywords": [
+    "ttcordes",
+    "instrumentos",
+    "musicais",
+    "api",
+    "rest",
+    "mongodb",
+    "jwt",
+    "nodejs",
+    "express"
+  ],
+  "license": "ISC",
+  "author": "Grupo Projeto DWLS",
+  "type": "commonjs",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "dev": "nodemon backend/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.1",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
