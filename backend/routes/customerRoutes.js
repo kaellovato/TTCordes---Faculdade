@@ -10,6 +10,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 router.get('/', authMiddleware, customerController.getAllCustomers);
 router.get('/:id', authMiddleware, customerController.getCustomerById);
 router.post('/', authMiddleware, customerController.createCustomer);
+router.put('/:id', authMiddleware, customerController.replaceCustomer);
 router.patch('/:id', authMiddleware, customerController.updateCustomer);
 router.delete('/:id', authMiddleware, customerController.deleteCustomer);
 
