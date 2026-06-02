@@ -77,10 +77,21 @@ const openApiSpec = {
       },
       post: {
         tags: ['Instruments'],
-        summary: 'Criar instrumento',
+        summary: 'Criar instrumento (manager/owner)',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/InstrumentInput' }
+            }
+          }
+        },
         responses: {
           201: { description: 'Instrumento criado' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          401: { description: 'Unauthorized' },
+          403: { description: 'Forbidden - role insuficiente' },
+          400: { description: 'Bad Request' }
         }
       }
     },
@@ -104,20 +115,33 @@ const openApiSpec = {
       },
       patch: {
         tags: ['Instruments'],
-        summary: 'Atualizar instrumento',
+        summary: 'Atualizar instrumento (manager/owner)',
+        security: [{ bearerAuth: [] }],
         parameters: [{ $ref: '#/components/parameters/id' }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/InstrumentInput' }
+            }
+          }
+        },
         responses: {
           200: { description: 'Instrumento atualizado' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          401: { description: 'Unauthorized' },
+          403: { description: 'Forbidden - role insuficiente' },
+          400: { description: 'Bad Request' }
         }
       },
       delete: {
         tags: ['Instruments'],
-        summary: 'Remover instrumento',
+        summary: 'Remover instrumento (manager/owner)',
+        security: [{ bearerAuth: [] }],
         parameters: [{ $ref: '#/components/parameters/id' }],
         responses: {
           204: { description: 'Instrumento removido' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          401: { description: 'Unauthorized' },
+          403: { description: 'Forbidden - role insuficiente' }
         }
       }
     },
@@ -143,10 +167,20 @@ const openApiSpec = {
       },
       post: {
         tags: ['Sales'],
-        summary: 'Criar venda',
+        summary: 'Criar venda (autenticado)',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/SaleInput' }
+            }
+          }
+        },
         responses: {
           201: { description: 'Venda criada' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          400: { description: 'Bad Request' },
+          401: { description: 'Unauthorized' }
         }
       }
     },
@@ -170,20 +204,31 @@ const openApiSpec = {
       },
       patch: {
         tags: ['Sales'],
-        summary: 'Atualizar venda',
+        summary: 'Atualizar venda (autenticado)',
+        security: [{ bearerAuth: [] }],
         parameters: [{ $ref: '#/components/parameters/id' }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/SaleInput' }
+            }
+          }
+        },
         responses: {
           200: { description: 'Venda atualizada' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          400: { description: 'Bad Request' },
+          401: { description: 'Unauthorized' }
         }
       },
       delete: {
         tags: ['Sales'],
-        summary: 'Remover venda',
+        summary: 'Remover venda (autenticado)',
+        security: [{ bearerAuth: [] }],
         parameters: [{ $ref: '#/components/parameters/id' }],
         responses: {
           204: { description: 'Venda removida' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          401: { description: 'Unauthorized' }
         }
       }
     },
@@ -209,10 +254,20 @@ const openApiSpec = {
       },
       post: {
         tags: ['Customers'],
-        summary: 'Criar cliente',
+        summary: 'Criar cliente (autenticado)',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/CustomerInput' }
+            }
+          }
+        },
         responses: {
           201: { description: 'Cliente criado' },
-          501: { $ref: '#/components/responses/NotImplemented' }
+          400: { description: 'Bad Request' },
+          401: { description: 'Unauthorized' }
         }
       }
     },
@@ -319,6 +374,13 @@ const openApiSpec = {
     }
   },
   components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    },
     parameters: {
       id: {
         name: 'id',
@@ -360,6 +422,18 @@ const openApiSpec = {
           active: { type: 'boolean' }
         }
       },
+      InstrumentInput: {
+        type: 'object',
+        required: ['name','category','price'],
+        properties: {
+          name: { type: 'string' },
+          description: { type: 'string' },
+          category: { type: 'string' },
+          price: { type: 'number' },
+          stock: { type: 'number' },
+          active: { type: 'boolean' }
+        }
+      },
       Sale: {
         type: 'object',
         properties: {
@@ -374,10 +448,33 @@ const openApiSpec = {
           status: { type: 'string', enum: ['pending', 'completed', 'cancelled'] }
         }
       },
+      SaleInput: {
+        type: 'object',
+        required: ['seller_id','instrument_id','customer_id','quantity','unitPrice'],
+        properties: {
+          seller_id: { type: 'string' },
+          instrument_id: { type: 'string' },
+          customer_id: { type: 'string' },
+          quantity: { type: 'number' },
+          unitPrice: { type: 'number' },
+          status: { type: 'string', enum: ['pending','completed','cancelled'] },
+          notes: { type: 'string' }
+        }
+      },
       Customer: {
         type: 'object',
         properties: {
           _id: { type: 'string' },
+          name: { type: 'string' },
+          email: { type: 'string', format: 'email' },
+          phone: { type: 'string' },
+          address: { type: 'string' }
+        }
+      },
+      CustomerInput: {
+        type: 'object',
+        required: ['name','email'],
+        properties: {
           name: { type: 'string' },
           email: { type: 'string', format: 'email' },
           phone: { type: 'string' },

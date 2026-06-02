@@ -118,8 +118,6 @@ app.listen(PORT, () => {
 Servidor em: http://localhost:${PORT}
 Database: ${MONGODB_URI}
 Ambiente: ${process.env.NODE_ENV || 'development'}
-
-Próximo passo: autenticação, catálogo e vendas
    `);
 });
 
