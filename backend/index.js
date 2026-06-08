@@ -17,6 +17,7 @@ const saleRoutes = require('./routes/saleRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const statisticsRoutes = require('./routes/statisticsRoutes');
 const historyRoutes = require('./routes/historyRoutes');
+const maintenanceRoutes = require('./routes/maintenanceRoutes');
 
 // Criar aplicação Express
 const app = express();
@@ -52,7 +53,7 @@ mongoose.connect(MONGODB_URI)
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'API TTCordes - Sprint 2',
+    message: 'API TTCordes - Sprint 4',
     status: 'online',
     endpoints: {
       docs: 'GET /docs',
@@ -63,7 +64,8 @@ app.get('/', (req, res) => {
       },
       instruments: 'GET /instruments',
       sales: 'GET /sales',
-      customers: 'GET /customers (extra)',
+      customers: 'GET /customers',
+      maintenances: 'GET /maintenances',
       statistics: 'GET /statistics/*',
       history: 'GET /sellers/:id/*'
     }
@@ -76,8 +78,9 @@ app.use('/auth', authRoutes);
 app.use('/instruments', instrumentRoutes);
 app.use('/sales', saleRoutes);
 app.use('/customers', customerRoutes);
+app.use('/maintenances', maintenanceRoutes);
 app.use('/statistics', statisticsRoutes);
-app.use('/sellers', historyRoutes);
+app.use('/users', historyRoutes);
 
 // ==================== TRATAMENTO DE ERROS ====================
 
@@ -118,8 +121,6 @@ app.listen(PORT, () => {
 Servidor em: http://localhost:${PORT}
 Database: ${MONGODB_URI}
 Ambiente: ${process.env.NODE_ENV || 'development'}
-
-Próximo passo: autenticação, catálogo e vendas
    `);
 });
 

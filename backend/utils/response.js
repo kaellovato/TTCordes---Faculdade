@@ -1,26 +1,19 @@
 // ==================== UTILS: RESPONSE ====================
-// Este arquivo será implementado no Sprint 2
-// Helpers para formatar respostas
+// Helpers para formatar respostas JSON
 
-const successResponse = (res, data, message = 'Operação bem-sucedida', statusCode = 200) => {
-  res.status(statusCode).json({
-    success: true,
-    data,
-    message
-  });
-};
+const successResponse = (message = '', data = {}, statusCode = 200) => ({
+  success: true,
+  message,
+  data
+});
 
-const errorResponse = (res, error, message, statusCode = 400, details = {}) => {
-  res.status(statusCode).json({
-    success: false,
-    error,
-    message,
-    details
-  });
-};
+const errorResponse = (message = '', errors = [], statusCode = 400) => ({
+  success: false,
+  message,
+  errors: Array.isArray(errors) ? errors : [errors]
+});
 
 module.exports = {
   successResponse,
   errorResponse
 };
-
