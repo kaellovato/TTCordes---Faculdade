@@ -99,6 +99,38 @@ const validators = {
     if (address !== undefined && address !== '' && typeof address !== 'string') errors.push('Endereço inválido');
 
     return { valid: errors.length === 0, errors };
+  },
+
+  validateMaintenance: (maintenance) => {
+    const errors = [];
+    if (!maintenance || typeof maintenance !== 'object') return { valid: false, errors: ['Maintenance data missing'] };
+
+    const { technician_id, instrument_id, customer_id, serviceType, durationMinutes, cost } = maintenance;
+
+    const SERVICE_TYPES = [
+      'afinacao', 'reparacao', 'limpeza', 'substituicao_cordas',
+      'regulacao_traste', 'revisao_geral', 'setup_eletrico', 'restauro'
+    ];
+
+    const isValidId = (id) => id && /^[a-fA-F0-9]{24}$/.test(String(id));
+
+    if (!technician_id || !isValidId(technician_id)) errors.push('technician_id inválido');
+    if (!instrument_id || !isValidId(instrument_id)) errors.push('instrument_id inválido');
+    if (!customer_id || !isValidId(customer_id)) errors.push('customer_id inválido');
+
+    if (!serviceType || !SERVICE_TYPES.includes(serviceType)) {
+      errors.push(`serviceType inválido. Valores aceites: ${SERVICE_TYPES.join(', ')}`);
+    }
+
+    if (durationMinutes === undefined || typeof durationMinutes !== 'number' || durationMinutes < 1) {
+      errors.push('durationMinutes inválido (mínimo 1 minuto)');
+    }
+
+    if (cost === undefined || typeof cost !== 'number' || cost < 0) {
+      errors.push('cost inválido (deve ser >= 0)');
+    }
+
+    return { valid: errors.length === 0, errors };
   }
 };
 
